@@ -1,15 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-
-import App from './components/App';
-import { configureStore } from './store';
-
-const initialState = {}
+import App from './App';
+import './assets/_base.scss';
 
 ReactDOM.render(
-  <Provider store={configureStore(initialState)}>
-    <App />,
-  </Provider>,
+  <App />,
   document.querySelector('#root')
 );
