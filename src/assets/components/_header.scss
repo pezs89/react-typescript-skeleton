@@ -12,7 +12,14 @@
     width: 100%;
     padding: 0 20px;
   }
-  &__right_menu {
+  &__left-menu {
+    padding: 0 10px;
+  }
+  &__right-menu {
     margin-left: auto;
+    display: flex;
+    > div {
+      padding: 0 10px;
+    }
   }
 }
