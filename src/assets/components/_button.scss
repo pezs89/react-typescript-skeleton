@@ -1,0 +1,16 @@
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__button {
+    border: none;
+    padding: 10px 30px;
+    width: auto;
+    background-color: rgba(0, 97, 255, 1);
+    color: #FFF;
+    &--disabled {
+      background-color: rgba(0, 97, 255, 0.4);
+      cursor: default;
+    }
+  }
+}

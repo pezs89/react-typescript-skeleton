@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import Button from './Button';
 
 interface GauthState {
-  isSignedIn: boolean
+  isSignedIn: boolean | null
 }
 
 class GAuth extends Component<{}, GauthState> {
-  auth: boolean = false;
-  state = { isSignedIn: false };
+  state = { isSignedIn: null };
 
   componentDidMount(): void {
     window.gapi.load('client:auth2', () => {
@@ -25,11 +25,20 @@ class GAuth extends Component<{}, GauthState> {
     })
   }
 
+  handleSignOutClick = (): void => {
+    window.gapi.auth2.getAuthInstance().signOut();
+  }
+
+  handleSignInClick = (): void => {
+    window.gapi.auth2.getAuthInstance().signIn();
+  }
+
   renderAuthButton(): JSX.Element {
-    if (this.state.isSignedIn) {
-      return <div>Signed in</div>
+    const { isSignedIn } = this.state;
+    if (isSignedIn) {
+      return <div><Button label='Logout' value='logout' callback={this.handleSignOutClick} /></div>
     } else {
-      return <div>Signed out</div>
+      return <div><Button label='Login' type='button' value='login' callback={this.handleSignInClick} /></div>
     }
   }
 
