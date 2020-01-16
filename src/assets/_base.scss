@@ -1,6 +1,10 @@
 @import './components/header';
 @import './components/app';
 @import './components/button';
+@import './components/form';
+@import './components/input';
+
+@import './layout/stream-create';
 
 body {
   margin: 0;

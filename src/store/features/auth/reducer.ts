@@ -1,12 +1,18 @@
-import { AuthActionTypes, AuthState } from "./types";
+import { createReducer, ActionType } from 'typesafe-actions';
+import { AuthState } from './types';
+import { login, logout } from './actions';
 
 export const initialState: AuthState = {
-  isLoggedin: false
+  isLoggedIn: false,
+  userId: ''
 };
 
-export const authReducer = (state = initialState, action: AuthActionTypes) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+type LoginAction = ActionType<typeof login>;
+
+export const authReducer = createReducer<AuthState>(initialState)
+  .handleAction(login, (state: AuthState, action: LoginAction) => {
+    return { ...state, isLoggedIn: true, userId: action.payload };
+  })
+  .handleAction(logout, () => {
+    return { ...initialState, isLoggedIn: false };
+  });

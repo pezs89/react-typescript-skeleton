@@ -1,18 +1,9 @@
 export type AuthState = {
-  isLoggedin: boolean;
+  isLoggedIn: boolean;
+  userId: string;
 };
 
-export enum AuthActions {
-  LOGIN_SUCCESS,
-  LOGOUT_SUCCESS
+export enum AuthActionTypes {
+  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
+  LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 }
-
-interface LoginSuccessAction {
-  type: typeof AuthActions.LOGIN_SUCCESS;
-}
-
-interface LogoutSuccessAction {
-  type: typeof AuthActions.LOGIN_SUCCESS;
-}
-
-export type AuthActionTypes = LoginSuccessAction | LogoutSuccessAction;
