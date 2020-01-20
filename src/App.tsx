@@ -6,19 +6,8 @@ import StreamEdit from './components/StreamEdit'
 import StreamList from './components/StreamList'
 import StreamShow from './components/StreamShow'
 import Header from './components/Header';
-import { connect } from 'react-redux';
-import { loadStreamsAsync } from './store/features/streams/actions';
-import { loadStreams } from './services/streams-api';
 
-const dispatchProps = {
-  loadStreams: loadStreamsAsync.request
-}
-
-type Props = typeof dispatchProps;
-
-const App: React.FC = ({ loadStreams }: any): JSX.Element => {
-  loadStreams('streams');
-
+const App: React.FC = (): JSX.Element => {
   return (
     <div>
       <BrowserRouter>
@@ -35,4 +24,4 @@ const App: React.FC = ({ loadStreams }: any): JSX.Element => {
   );
 };
 
-export default connect(null, dispatchProps)(App);
+export default App;

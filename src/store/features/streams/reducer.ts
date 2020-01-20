@@ -1,19 +1,37 @@
-import { createReducer, ActionType } from 'typesafe-actions';
+import { createReducer } from 'typesafe-actions';
+import { omit, mapKeys } from 'lodash';
 import { StreamsState } from './types';
-import { loadStreamsAsync } from './actions';
+import {
+  loadStreamsAsync,
+  createStreamAsync,
+  loadStreamAsync,
+  editStreamAsync,
+  deleteStreamAsync
+} from './actions';
 
 export const initialState: StreamsState = {
-  streams: []
+  streamList: {}
 };
-
-type StreamsAction = ActionType<typeof loadStreamsAsync>;
 
 export const streamsReducer = createReducer(initialState)
   .handleAction(loadStreamsAsync.success, (state, action) => {
-    console.log('ye');
-    return { ...state, streams: [...action.payload] };
+    return { ...state, streamList: mapKeys(action.payload, 'id') };
   })
-  .handleAction(loadStreamsAsync.failure, (state, action) => {
-    console.log(state, action, 'fuck');
+  .handleAction(loadStreamsAsync.failure, state => {
     return state;
+  })
+  .handleAction(createStreamAsync.success, (state, action) => {
+    return { ...state, ...action.payload };
+  })
+  .handleAction(loadStreamAsync.success, (state, action) => state)
+  .handleAction(loadStreamAsync.failure, (state, action) => state)
+  .handleAction(deleteStreamAsync.success, (state, action) =>
+    omit(state, action.payload)
+  )
+  .handleAction(editStreamAsync.success, (state, action) => {
+    let newState = { ...state };
+    if (action.payload.id) {
+      newState = { ...state, [action.payload.id]: action.payload };
+    }
+    return newState;
   });

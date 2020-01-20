@@ -1,3 +1,29 @@
 {
-  "streams": []
+  "streams": [
+    {
+      "title": "dsadas",
+      "description": "dasdas",
+      "id": 1
+    },
+    {
+      "title": "432",
+      "description": "566",
+      "id": 2
+    },
+    {
+      "title": "fds",
+      "description": "trw",
+      "id": 3
+    },
+    {
+      "title": "dsadasf",
+      "description": "rew432",
+      "id": 4
+    },
+    {
+      "title": "dsa",
+      "description": "reqw",
+      "id": 5
+    }
+  ]
 }

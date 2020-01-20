@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { Field, reduxForm, InjectedFormProps, FormErrors } from 'redux-form';
 import Input from './Input';
 import Button from './Button';
+import { connect } from 'react-redux';
+import { Stream } from '../store/features/streams/types';
+import { createStreamAsync } from '../store/features/streams/actions';
 
-interface StreamCreateFormProps {
-  title: string;
-  description: string;
-}
+const mapDispatchToProps = {
+  createStream: createStreamAsync.request
+};
 
-class StreamCreate extends Component<InjectedFormProps<StreamCreateFormProps>> {
-  onSubmit(event: StreamCreateFormProps) {
-    console.log(event.title)
+type StreamCreateProps = typeof mapDispatchToProps;
+
+class StreamCreate extends Component<StreamCreateProps & InjectedFormProps<Stream, StreamCreateProps>> {
+  onSubmit = (event: Stream) => {
+    this.props.createStream(event);
   }
 
   render(): JSX.Element {
@@ -27,8 +31,8 @@ class StreamCreate extends Component<InjectedFormProps<StreamCreateFormProps>> {
   }
 }
 
-const validate = (formValues: StreamCreateFormProps): FormErrors<StreamCreateFormProps> => {
-  const errors: FormErrors<StreamCreateFormProps> = {};
+const validate = (formValues: Stream): FormErrors<Stream> => {
+  const errors: FormErrors<Stream> = {};
   if (!formValues.title) {
     errors.title = 'Title is required';
   }
@@ -40,7 +44,9 @@ const validate = (formValues: StreamCreateFormProps): FormErrors<StreamCreateFor
   return errors;
 }
 
-export default reduxForm({
+const wrappedForm = reduxForm<Stream, StreamCreateProps>({
   form: 'streamCreate',
   validate
 })(StreamCreate);
+
+export default connect(null, mapDispatchToProps)(wrappedForm) 

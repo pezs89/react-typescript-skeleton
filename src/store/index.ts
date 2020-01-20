@@ -32,7 +32,15 @@ const middlewares = [epicMiddleware];
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
 // rehydrate state on app start
-const initialState = {};
+const initialState: ApplicationState = {
+  auth: {
+    isLoggedIn: false,
+    userId: ''
+  },
+  streams: {
+    streamList: {}
+  }
+};
 
 // create store
 const store = createStore(rootReducer, initialState, enhancer);
@@ -41,5 +49,3 @@ epicMiddleware.run(rootEpic);
 
 // export store singleton instance
 export default store;
-
-//Client-id: 630462222615-es4s716t5m9a1b252qgsc5gkuvgtf4t4.apps.googleusercontent.com
