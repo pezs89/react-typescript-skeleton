@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadStreamsAsync } from '../store/features/streams/actions';
 import { ApplicationState } from '../store';
+import StreamCard from './StreamCard';
+import { Stream } from '../store/features/streams/types';
 
 const dispatchProps = {
   loadStreams: loadStreamsAsync.request
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  streams: Object.values(state.streams.streamList)
+const mapStateToProps = ({ streams }: ApplicationState) => ({
+  streams: streams.streamList
 })
 
 type StreamListProps = typeof dispatchProps & ReturnType<typeof mapStateToProps>;
@@ -20,8 +22,11 @@ class StreamList extends Component<StreamListProps> {
 
   render(): JSX.Element {
     const { streams } = this.props;
-    console.log(streams);
-    return <div>StreamList</div>
+    return <div className="stream-list">
+      {streams.map((stream: Stream) =>
+        <StreamCard key={stream.id} {...stream} />
+      )}
+    </div>
   }
 }
 

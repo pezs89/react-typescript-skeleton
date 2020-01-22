@@ -1,5 +1,10 @@
 import { Epic } from 'redux-observable';
-import { RootAction, RootState, Services, isActionOf } from 'typesafe-actions';
+import {
+  RootAction,
+  RootState,
+  Services,
+  isActionOf
+} from 'typesafe-actions';
 import {
   loadStreamsAsync,
   createStreamAsync,

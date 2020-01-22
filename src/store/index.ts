@@ -38,7 +38,7 @@ const initialState: ApplicationState = {
     userId: ''
   },
   streams: {
-    streamList: {}
+    streamList: []
   }
 };
 

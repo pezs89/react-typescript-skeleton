@@ -5,7 +5,7 @@ export interface Stream {
 }
 
 export type StreamsState = {
-  streamList: {};
+  streamList: Stream[];
 };
 
 export enum StreamsActionTypes {

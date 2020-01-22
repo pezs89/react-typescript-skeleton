@@ -1,0 +1,20 @@
+.stream-card {
+  width: calc(100% / 3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+
+  &__image {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__description {
+    padding: 10px 10px 15px;
+  }
+
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: calc(100% - 20px);
+  }
+}

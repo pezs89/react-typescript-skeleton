@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions';
-import { omit, mapKeys } from 'lodash';
+import { omit } from 'lodash';
 import { StreamsState } from './types';
 import {
   loadStreamsAsync,
@@ -10,12 +10,12 @@ import {
 } from './actions';
 
 export const initialState: StreamsState = {
-  streamList: {}
+  streamList: []
 };
 
 export const streamsReducer = createReducer(initialState)
   .handleAction(loadStreamsAsync.success, (state, action) => {
-    return { ...state, streamList: mapKeys(action.payload, 'id') };
+    return { ...state, streamList: action.payload };
   })
   .handleAction(loadStreamsAsync.failure, state => {
     return state;
