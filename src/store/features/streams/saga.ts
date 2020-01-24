@@ -1,0 +1,101 @@
+import {
+  all,
+  call,
+  fork,
+  put,
+  takeEvery
+} from 'redux-saga/effects';
+import { callApi } from '../../../utils/api';
+import { StreamsActionTypes, StreamActionTypes } from './types';
+import {
+  loadStreamsAsync,
+  loadStreamAsync,
+  createStreamAsync
+} from './actions';
+
+function* fetchStreams() {
+  try {
+    // To call async functions, use redux-saga's `call()`.
+    const res = yield call(callApi, 'GET', 'streams');
+    if (res.error) {
+      yield put(loadStreamsAsync.failure(res.error));
+    } else {
+      yield put(loadStreamsAsync.success(res.data));
+    }
+  } catch (err) {
+    if (err instanceof Error && err.stack) {
+      yield put(loadStreamsAsync.failure(err));
+    } else {
+      yield put(
+        loadStreamsAsync.failure(new Error('An unknown error occured.'))
+      );
+    }
+  }
+}
+
+function* fetchStream(action: ReturnType<typeof loadStreamAsync.request>) {
+  try {
+    // To call async functions, use redux-saga's `call()`.
+    const res = yield call(
+      callApi,
+      'GET',
+      `streams/:${action.payload}`
+    );
+    if (res.error) {
+      yield put(loadStreamAsync.failure(res.error));
+    } else {
+      yield put(loadStreamAsync.success(res));
+    }
+  } catch (err) {
+    if (err instanceof Error && err.stack) {
+      yield put(loadStreamAsync.failure(err));
+    } else {
+      yield put(
+        loadStreamAsync.failure(new Error('An unknown error occured.'))
+      );
+    }
+  }
+}
+
+function* createStream(action: ReturnType<typeof createStreamAsync.request>) {
+  try {
+    // To call async functions, use redux-saga's `call()`.
+    const res = yield call(
+      callApi,
+      'POST',
+      `streams`,
+      action.payload
+    );
+    if (res.error) {
+      yield put(createStreamAsync.failure(res.error));
+    } else {
+      yield put(createStreamAsync.success(res.data));
+    }
+  } catch (err) {
+    if (err instanceof Error && err.stack) {
+      yield put(createStreamAsync.failure(err));
+    } else {
+      yield put(
+        createStreamAsync.failure(new Error('An unknown error occured.'))
+      );
+    }
+  }
+}
+
+// This is our watcher function. We use `take*()` functions to watch Redux for a specific action
+// type, and run our saga, for example the `handleFetch()` saga above.
+function* watchFetchStreamsRequest() {
+  yield takeEvery(StreamsActionTypes.FETCH_STREAMS_REQUEST, fetchStreams);
+  yield takeEvery(StreamActionTypes.FETCH_STREAM_REQUEST, fetchStream);
+}
+
+function* watchCreateStreamRequest() {
+  yield takeEvery(StreamActionTypes.CREATE_STREAM_REQUEST, createStream);
+}
+
+// We can also use `fork()` here to split our saga into multiple watchers.
+function* streamsSaga() {
+  yield all([fork(watchFetchStreamsRequest), fork(watchCreateStreamRequest)]);
+}
+
+export default streamsSaga;

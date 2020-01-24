@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+import { History } from 'history';
+
 import StreamCreate from './components/StreamCreate'
 import StreamDelete from './components/StreamDelete'
 import StreamEdit from './components/StreamEdit'
@@ -7,10 +9,14 @@ import StreamList from './components/StreamList'
 import StreamShow from './components/StreamShow'
 import Header from './components/Header';
 
-const App: React.FC = (): JSX.Element => {
+interface MainProps {
+  history: History;
+}
+
+const App: React.FC<MainProps> = ({ history }): JSX.Element => {
   return (
     <div>
-      <BrowserRouter>
+      <Router history={history}>
         <div className="container">
           <Header />
           <Route path="/" exact component={StreamList} />
@@ -19,7 +25,7 @@ const App: React.FC = (): JSX.Element => {
           <Route path="/streams/delete" exact component={StreamDelete} />
           <Route path="/streams/show" exact component={StreamShow} />
         </div>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 };

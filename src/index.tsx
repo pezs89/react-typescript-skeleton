@@ -1,14 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { createBrowserHistory } from 'history'
 import App from './App';
-import store from './store';
+import { configureStore, ApplicationState } from './store';
 
 import './assets/scss/_main.scss';
 
+
+const initialState: ApplicationState = {
+  auth: {
+    isLoggedIn: false,
+    userId: ''
+  },
+  streams: {
+    streamList: []
+  }
+};
+
+const history = createBrowserHistory();
+const store = configureStore(history, initialState);
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App history={history}/>
   </Provider>,
   document.querySelector('#root')
 );

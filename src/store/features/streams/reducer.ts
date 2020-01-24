@@ -8,30 +8,61 @@ import {
   editStreamAsync,
   deleteStreamAsync
 } from './actions';
+import { StreamState } from 'http2';
 
 export const initialState: StreamsState = {
   streamList: []
 };
 
 export const streamsReducer = createReducer(initialState)
-  .handleAction(loadStreamsAsync.success, (state, action) => {
-    return { ...state, streamList: action.payload };
-  })
-  .handleAction(loadStreamsAsync.failure, state => {
+  .handleAction(
+    loadStreamsAsync.success,
+    (
+      state: StreamsState,
+      action: ReturnType<typeof loadStreamsAsync.success>
+    ) => {
+      return { ...state, streamList: action.payload };
+    }
+  )
+  .handleAction(loadStreamsAsync.failure, (state: StreamsState) => {
     return state;
   })
-  .handleAction(createStreamAsync.success, (state, action) => {
-    return { ...state, ...action.payload };
-  })
-  .handleAction(loadStreamAsync.success, (state, action) => state)
-  .handleAction(loadStreamAsync.failure, (state, action) => state)
-  .handleAction(deleteStreamAsync.success, (state, action) =>
-    omit(state, action.payload)
-  )
-  .handleAction(editStreamAsync.success, (state, action) => {
-    let newState = { ...state };
-    if (action.payload.id) {
-      newState = { ...state, [action.payload.id]: action.payload };
+  .handleAction(
+    createStreamAsync.success,
+    (
+      state: StreamsState,
+      action: ReturnType<typeof createStreamAsync.success>
+    ) => {
+      return { ...state, ...action.payload };
     }
-    return newState;
-  });
+  )
+  .handleAction(
+    loadStreamAsync.success,
+    (state: StreamState, action: ReturnType<typeof loadStreamAsync.success>) =>
+      state
+  )
+  .handleAction(
+    loadStreamAsync.failure,
+    (state: StreamState, action: ReturnType<typeof loadStreamAsync.failure>) =>
+      state
+  )
+  .handleAction(
+    deleteStreamAsync.success,
+    (
+      state: StreamState,
+      action: ReturnType<typeof deleteStreamAsync.success>
+    ) => omit(state, action.payload)
+  )
+  .handleAction(
+    editStreamAsync.success,
+    (
+      state: StreamState,
+      action: ReturnType<typeof editStreamAsync.success>
+    ) => {
+      let newState = { ...state };
+      if (action.payload.id) {
+        newState = { ...state, [action.payload.id]: action.payload };
+      }
+      return newState;
+    }
+  );

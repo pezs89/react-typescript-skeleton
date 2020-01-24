@@ -1,51 +1,30 @@
 import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
-import { RootAction, RootState, Services } from 'typesafe-actions';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+import { RouterState, routerMiddleware } from 'connected-react-router';
+import { History } from 'history';
+
 import { AuthState } from './features/auth/types';
 import { StreamsState } from './features/streams/types';
-
-import rootReducer from './root-reducer';
-import rootEpic from './root-epic';
-
-import services from '../services';
+import { rootSaga, createRootReducer } from './root-reducer';
 
 export interface ApplicationState {
   auth: AuthState;
   streams: StreamsState;
+  router?: RouterState;
 }
 
-export const epicMiddleware = createEpicMiddleware<
-  RootAction,
-  RootAction,
-  RootState,
-  Services
->({
-  dependencies: services
-});
-
-const composeEnhancers = composeWithDevTools({});
-
-// configure middlewares
-const middlewares = [epicMiddleware];
-// compose enhancers
-const enhancer = composeEnhancers(applyMiddleware(...middlewares));
-
-// rehydrate state on app start
-const initialState: ApplicationState = {
-  auth: {
-    isLoggedIn: false,
-    userId: ''
-  },
-  streams: {
-    streamList: []
-  }
-};
-
 // create store
-const store = createStore(rootReducer, initialState, enhancer);
-
-epicMiddleware.run(rootEpic);
-
-// export store singleton instance
-export default store;
+export const configureStore = (
+  history: History,
+  initialState: ApplicationState
+): any => {
+  const composeEnhancers = composeWithDevTools({});
+  const sagaMiddleware = createSagaMiddleware();
+  const enhancer = composeEnhancers(
+    applyMiddleware(routerMiddleware(history), sagaMiddleware)
+  );
+  const store = createStore(createRootReducer(history), initialState, enhancer);
+  sagaMiddleware.run(rootSaga);
+  return store;
+};

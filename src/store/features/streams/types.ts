@@ -1,7 +1,8 @@
 export interface Stream {
   title: string;
   description: string;
-  id?: number;
+  id?: string;
+  createdBy?: string;
 }
 
 export type StreamsState = {
