@@ -1,10 +1,4 @@
-import {
-  all,
-  call,
-  fork,
-  put,
-  takeEvery
-} from 'redux-saga/effects';
+import { all, call, fork, put, takeEvery, select } from 'redux-saga/effects';
 import { callApi } from '../../../utils/api';
 import { StreamsActionTypes, StreamActionTypes } from './types';
 import {
@@ -12,6 +6,10 @@ import {
   loadStreamAsync,
   createStreamAsync
 } from './actions';
+import { ApplicationState } from '../..';
+import { push } from 'connected-react-router';
+
+const getCurrentUserId = ({ auth }: ApplicationState) => auth.userId;
 
 function* fetchStreams() {
   try {
@@ -36,11 +34,7 @@ function* fetchStreams() {
 function* fetchStream(action: ReturnType<typeof loadStreamAsync.request>) {
   try {
     // To call async functions, use redux-saga's `call()`.
-    const res = yield call(
-      callApi,
-      'GET',
-      `streams/:${action.payload}`
-    );
+    const res = yield call(callApi, 'GET', `streams/:${action.payload}`);
     if (res.error) {
       yield put(loadStreamAsync.failure(res.error));
     } else {
@@ -59,18 +53,18 @@ function* fetchStream(action: ReturnType<typeof loadStreamAsync.request>) {
 
 function* createStream(action: ReturnType<typeof createStreamAsync.request>) {
   try {
-    // To call async functions, use redux-saga's `call()`.
-    const res = yield call(
-      callApi,
-      'POST',
-      `streams`,
-      action.payload
-    );
+    // To call async functions, use redux-saga's `call()`
+    const userId = yield select(getCurrentUserId);
+    const res = yield call(callApi, 'POST', `streams`, {
+      ...action.payload,
+      createdBy: userId
+    });
     if (res.error) {
       yield put(createStreamAsync.failure(res.error));
     } else {
       yield put(createStreamAsync.success(res.data));
     }
+    yield put(push('/'));
   } catch (err) {
     if (err instanceof Error && err.stack) {
       yield put(createStreamAsync.failure(err));

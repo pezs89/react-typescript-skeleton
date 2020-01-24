@@ -19,7 +19,7 @@ const mapStateToProps = ({ streams, auth }: ApplicationState) => ({
 type StreamListProps = typeof dispatchProps & ReturnType<typeof mapStateToProps>;
 
 class StreamList extends Component<StreamListProps> {
-  componentDidMount() {
+  componentDidMount(): void {
     this.props.loadStreams();
   }
 

@@ -3,6 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { RouterState, routerMiddleware } from 'connected-react-router';
 import { History } from 'history';
+import { FormStateMap } from 'redux-form';
 
 import { AuthState } from './features/auth/types';
 import { StreamsState } from './features/streams/types';
@@ -11,6 +12,7 @@ import { rootSaga, createRootReducer } from './root-reducer';
 export interface ApplicationState {
   auth: AuthState;
   streams: StreamsState;
+  form?: FormStateMap;
   router?: RouterState;
 }
 
