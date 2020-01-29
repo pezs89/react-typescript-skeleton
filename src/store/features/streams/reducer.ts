@@ -18,7 +18,7 @@ export const streamsReducer = createReducer<
   StreamsReducerActions
 >(initialState)
   .handleAction(loadStreamsAsync.success, (state, action) => {
-    return { ...state, streamList: action.payload };
+    return { ...state, streamList: [...action.payload] };
   })
   .handleAction(loadStreamsAsync.failure, state => {
     return state;
@@ -26,11 +26,22 @@ export const streamsReducer = createReducer<
   .handleAction(createStreamAsync.success, (state, action) => {
     return { ...state, ...action.payload };
   })
-  .handleAction(loadStreamAsync.success, (state, action) => state)
-  .handleAction(loadStreamAsync.failure, (state, action) => state)
-  .handleAction(deleteStreamAsync.success, (state, action) =>
-    omit(state, action.payload)
-  )
+  .handleAction(loadStreamAsync.success, (state, action) => {
+    const hasItemAlreadyLoaded = state.streamList.find(
+      stream => stream.id === +action.payload.id
+    );
+    if (!hasItemAlreadyLoaded) {
+      const newState = {
+        ...state,
+        streamList: [...state.streamList, action.payload]
+      };
+      return newState;
+    }
+    return state;
+  })
+  .handleAction(deleteStreamAsync.success, (state, action) => {
+    return omit(state, action.payload);
+  })
   .handleAction(editStreamAsync.success, (state, action) => {
     let newState = { ...state };
     if (action.payload.id) {

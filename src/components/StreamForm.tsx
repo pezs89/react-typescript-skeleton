@@ -1,24 +1,24 @@
 import React from 'react';
-import { Field, reduxForm, FormErrors } from 'redux-form';
+import { Field, reduxForm, FormErrors, InjectedFormProps } from 'redux-form';
+import { connect } from 'react-redux';
+
 import Button from './Button';
 import Input from './Input';
 import { Stream } from '../store/features/streams/types';
-import { connect } from 'react-redux';
 
-interface StreamFormProps {
+interface CustomProps {
   onSubmit: (stream: Stream) => void
 }
 
-const StreamForm: React.FC<StreamFormProps> = ({ onSubmit }: StreamFormProps) => {
+type StreamFormProps = CustomProps & InjectedFormProps<Stream, CustomProps>
+
+const StreamForm: React.FC<StreamFormProps> = ({ onSubmit, handleSubmit }: StreamFormProps) => {
   return (
-    <div>
-      asd
-    </div>
-    // <form className="form" onSubmit={handleSubmit(onSubmit)}>
-    //   <Field name="title" label="Title" component={Input} />
-    //   <Field name="description" label="Description" component={Input} />
-    //   <Button type={'submit'} label={'Submit'} callback={() => { }}></Button>
-    // </ form>
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <Field name="title" label="Title" component={Input} />
+      <Field name="description" label="Description" component={Input} />
+      <Button type={'submit'} label={'Submit'} callback={() => { }}></Button>
+    </ form>
   )
 }
 
@@ -36,7 +36,7 @@ const validate = (formValues: Stream): FormErrors<Stream> => {
   return errors;
 }
 
-const wrappedForm = reduxForm<Stream, StreamFormProps>({
+const wrappedForm = reduxForm<Stream, CustomProps>({
   form: 'streamCreate',
   validate
 })(StreamForm);

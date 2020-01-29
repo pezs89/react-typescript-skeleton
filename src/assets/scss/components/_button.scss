@@ -9,6 +9,7 @@
     width: auto;
     background-color: rgba(0, 97, 255, 1);
     color: #FFF;
+    cursor: pointer;
     &--disabled {
       background-color: rgba(0, 97, 255, 0.4);
       cursor: default;

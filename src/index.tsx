@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history'
+import history from './utils/history';
 import App from './App';
 import { configureStore, ApplicationState } from './store';
 
@@ -18,12 +18,11 @@ const initialState: ApplicationState = {
   }
 };
 
-const history = createBrowserHistory();
 const store = configureStore(history, initialState);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App history={history}/>
+    <App history={history} />
   </Provider>,
   document.querySelector('#root')
 );
