@@ -6,16 +6,17 @@ import { loadStreamsAsync } from '../store/features/streams/actions';
 import { ApplicationState } from '../store';
 import StreamCard from './StreamCard';
 import { Stream } from '../store/features/streams/types';
+import { StreamWrapperType } from '../enums/StreanWrapperTypes';
 
 const dispatchProps = {
   loadStreams: loadStreamsAsync.request
-}
+};
 
 const mapStateToProps = ({ streams, auth }: ApplicationState) => ({
   streams: streams.streamList,
   currentUserId: auth.userId,
   isLoggedIn: auth.isLoggedIn
-})
+});
 
 type StreamListProps = typeof dispatchProps & ReturnType<typeof mapStateToProps> & RouteComponentProps;
 
@@ -26,7 +27,7 @@ class StreamList extends Component<StreamListProps> {
 
   navigateToStream = (streamId: number): void => {
     const { history } = this.props;
-    history.push(`streams/${streamId}`);
+    history.push(`streams/${StreamWrapperType.SHOW}/${streamId}`);
   }
 
   render(): JSX.Element {

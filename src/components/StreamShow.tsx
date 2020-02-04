@@ -1,37 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import React from 'react'
 
-import { ApplicationState } from '../store';
-import { loadStreamAsync } from '../store/features/streams/actions';
+import { CustomStreamInnerComponentProps } from './StreamWrapper';
+import { Stream } from '../store/features/streams/types';
 
-const mapStateToProps = ({ streams }: ApplicationState, ownProps: RouteComponentProps<{ id: string }>) => ({
-  stream: streams.streamList.find(stream => stream.id === +ownProps.match.params.id)
-})
-
-const mapDispatchToProp = {
-  loadStream: loadStreamAsync.request
-}
-
-type StreamShowProps = typeof mapDispatchToProp & ReturnType<typeof mapStateToProps> & RouteComponentProps<{ id: string }>;
-
-class StreamShow extends Component<StreamShowProps> {
-  componentDidMount() {
-    this.props.loadStream(+this.props.match.params.id);
-  }
-
-  render() {
-    const { stream } = this.props;
-    if (stream) {
-      return (
+const StreamShow: React.FC<CustomStreamInnerComponentProps<Stream>> = ({ stream }: CustomStreamInnerComponentProps<Stream>) => {
+  if (stream) {
+    return (
       <div>
         <video></video>
         {stream.title}
       </div>
-      )
-    }
-    return <div>Loading...</div>
+    )
   }
+  return <div>Loading...</div>
+
 }
 
-export default connect(mapStateToProps, mapDispatchToProp)(StreamShow);
+export default StreamShow;

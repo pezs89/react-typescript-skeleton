@@ -4,17 +4,13 @@ import { RouteComponentProps } from 'react-router-dom';
 import Button from './Button';
 import Modal from './Modal';
 import { CustomStreamInnerComponentProps } from './StreamWrapper';
-
-enum DeleteModalActionType {
-  Delete,
-  Cancel
-}
+import { DeleteModalActionTypes } from '../enums/DeleteModalActionTypes';
 
 type StreamDeleteProps = CustomStreamInnerComponentProps<number> & RouteComponentProps<{ id: string }>;
 
 const StreamDelete: React.FC<StreamDeleteProps> = ({ stream, callback, history, match }: StreamDeleteProps): JSX.Element => {
-  const handleClick = (actionType: DeleteModalActionType) => {
-    if (actionType === DeleteModalActionType.Delete) {
+  const handleClick = (actionType: DeleteModalActionTypes) => {
+    if (actionType === DeleteModalActionTypes.Delete) {
       const { id } = match.params;
       callback(+id);
     } else {
@@ -29,8 +25,8 @@ const StreamDelete: React.FC<StreamDeleteProps> = ({ stream, callback, history, 
   const renderActions = (): JSX.Element => {
     return (
       <>
-        <Button type="button" label="Delete" callback={() => handleClick(DeleteModalActionType.Delete)}></Button>
-        <Button type="button" label="Cancel" callback={() => handleClick(DeleteModalActionType.Cancel)}></Button>
+        <Button type="button" label="Delete" callback={() => handleClick(DeleteModalActionTypes.Delete)}></Button>
+        <Button type="button" label="Cancel" callback={() => handleClick(DeleteModalActionTypes.Cancel)}></Button>
       </>
     )
   }

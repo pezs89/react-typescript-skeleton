@@ -1,0 +1,9 @@
+a {
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
