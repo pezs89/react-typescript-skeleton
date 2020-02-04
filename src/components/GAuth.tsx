@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Button from './Button';
+
 import { login, logout } from '../store/features/auth/actions';
 import { ApplicationState } from '../store';
+import { IoIosContact } from 'react-icons/io';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  isLoggedIn: state.auth.isLoggedIn
+  isLoggedIn: state.auth.isLoggedIn,
+  profileImg: state.auth.profileImg
 });
 
 const dispatchProps = {
@@ -38,7 +40,9 @@ class GAuth extends Component<Props> {
 
   onAuthChange = (isLoggedIn: boolean): void => {
     if (isLoggedIn && this.auth) {
-      this.props.login(this.auth.currentUser.get().getId());
+      const id = this.auth.currentUser.get().getId();
+      const profileImg = this.auth.currentUser.get().getBasicProfile().getImageUrl();
+      this.props.login({ id, profileImg });
     } else {
       this.props.logout();
     }
@@ -57,16 +61,20 @@ class GAuth extends Component<Props> {
   }
 
   renderAuthButton(): JSX.Element {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, profileImg } = this.props;
     if (isLoggedIn) {
-      return <div><Button label='Logout' value='logout' callback={this.handleSignOutClick} /></div>
+      return <img className="gauth__image" src={profileImg || ''} alt={'Logout'} onClick={this.handleSignOutClick} />
     } else {
-      return <div><Button label='Login' type='button' value='login' callback={this.handleSignInClick} /></div>
+      return <IoIosContact className="gauth__image gauth__image--icon" onClick={this.handleSignInClick}/>
     }
   }
 
   render(): JSX.Element {
-    return <div>{this.renderAuthButton()}</div>
+    return (
+      <div className="gauth">
+        {this.renderAuthButton()}
+      </div>
+    )
   }
 }
 

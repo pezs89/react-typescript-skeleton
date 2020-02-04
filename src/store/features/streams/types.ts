@@ -13,7 +13,7 @@ export interface Stream {
   createdBy?: string;
 }
 
-export interface StreamEdit {
+export interface StreamEditPayloadValues {
   id: number;
   stream: Stream;
 }

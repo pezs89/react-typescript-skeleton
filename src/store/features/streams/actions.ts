@@ -3,7 +3,7 @@ import {
   StreamsActionTypes,
   Stream,
   StreamActionTypes,
-  StreamEdit
+  StreamEditPayloadValues
 } from './types';
 
 export const loadStreamsAsync = createAsyncAction(
@@ -34,4 +34,4 @@ export const editStreamAsync = createAsyncAction(
   StreamActionTypes.EDIT_STREAM_REQUEST,
   StreamActionTypes.EDIT_STREAM_SUCCESS,
   StreamActionTypes.EDIT_STREAM_FAILURE
-)<StreamEdit, Stream, Error>();
+)<StreamEditPayloadValues, Stream, Error>();

@@ -1,49 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import React from 'react';
 import _ from 'lodash';
 
 import StreamForm from './StreamForm';
-import { ApplicationState } from '../store';
-import { loadStreamAsync, editStreamAsync } from '../store/features/streams/actions';
 import { Stream } from '../store/features/streams/types';
+import { CustomStreamInnerComponentProps } from './StreamWrapper';
 
-const mapStateToProps = ({ streams }: ApplicationState, ownProps: RouteComponentProps<{ id: string }>) => ({
-  editedStream: streams.streamList.find(stream => stream.id === +ownProps.match.params.id)
-});
+const StreamEdit: React.FC<CustomStreamInnerComponentProps<Stream>> = ({ stream, callback }: CustomStreamInnerComponentProps<Stream>) => {
+  const handleSubmit = (stream: Stream) => {
+    callback(stream);
+  }
 
-const mapDispatchToProps = {
-  loadStream: loadStreamAsync.request,
-  editStream: editStreamAsync.request
+  if (stream) {
+    return (
+      <div className="stream-create">
+        <StreamForm
+          initialValues={_.pick(stream, 'title', 'description')}
+          onSubmit={handleSubmit}
+        />
+      </div>
+    )
+  }
+  return <div>Loading...</div>;
 }
 
-type StreamEditProps = typeof mapDispatchToProps & ReturnType<typeof mapStateToProps> & RouteComponentProps<{ id: string }>;
-
-class StreamEdit extends Component<StreamEditProps> {
-  componentDidMount(): void {
-    const { id } = this.props.match.params;
-    this.props.loadStream(+id);
-  }
-
-  handleSubmit = (stream: Stream) => {
-    const { id } = this.props.match.params;
-    this.props.editStream({ id: +id, stream });
-  }
-
-  render() {
-    const { editedStream } = this.props;
-    if (editedStream) {
-      return (
-        <div className="stream-create">
-          <StreamForm
-            initialValues={_.pick(editedStream, 'title', 'description')}
-            onSubmit={this.handleSubmit}
-          />
-        </div>
-      )
-    }
-    return (<div>Loading...</div>)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(StreamEdit);
+export default StreamEdit;

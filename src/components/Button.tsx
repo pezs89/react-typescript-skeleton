@@ -12,7 +12,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps): JSX.Element => {
         type={props.type}
         value={props.value}
         onClick={(e: React.FormEvent<HTMLButtonElement>) => props.callback((e.target as HTMLButtonElement).value)}>
-        {props.label}
+        {props.label} {props.children}
       </button>
     </div>
   )

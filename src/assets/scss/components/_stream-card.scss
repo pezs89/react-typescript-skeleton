@@ -2,9 +2,14 @@
   width: calc(100% / 3 - 40px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   margin: 20px;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 5px 5px 15px rgba(0,0,0,.2);
+  }
 
   &__image {
-    height: 241px;
+    height: auto;
     width: 100%;
     position: relative;
     img {

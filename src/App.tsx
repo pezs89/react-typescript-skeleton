@@ -1,13 +1,11 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { History } from 'history';
 
 import StreamCreate from './components/StreamCreate'
-import StreamDelete from './components/StreamDelete'
-import StreamEdit from './components/StreamEdit'
 import StreamList from './components/StreamList'
-import StreamShow from './components/StreamShow'
 import Header from './components/Header';
+import StreamWrapper, { StreamWrapperType } from './components/StreamWrapper';
 
 interface MainProps {
   history: History;
@@ -19,11 +17,13 @@ const App: React.FC<MainProps> = ({ history }): JSX.Element => {
       <Router history={history}>
         <div className="container">
           <Header />
-          <Route path="/" exact component={StreamList} />
-          <Route path="/streams/new" exact component={StreamCreate} />
-          <Route path="/streams/edit/:id" exact component={StreamEdit} />
-          <Route path="/streams/delete/:id" exact component={StreamDelete} />
-          <Route path="/streams/show" exact component={StreamShow} />
+          <Switch>
+            <Route path="/" exact component={StreamList} />
+            <Route path="/streams/new" exact component={StreamCreate} />
+            <Route path="/streams/edit/:id" exact render={(props)=> <StreamWrapper {...props} type={StreamWrapperType.EDIT}/>} />
+            <Route path="/streams/delete/:id" exact render={(props)=> <StreamWrapper {...props} type={StreamWrapperType.DELETE}/>} />
+            <Route path="/streams/:id" exact render={(props)=> <StreamWrapper {...props} type={StreamWrapperType.SHOW}/>} />
+          </Switch>
         </div>
       </Router>
     </div>

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Field, reduxForm, FormErrors, InjectedFormProps } from 'redux-form';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { connect } from 'react-redux';
 
 import Button from './Button';
 import Input from './Input';
+import { validate } from '../validators/StreamFormValidate';
 import { Stream } from '../store/features/streams/types';
 
 interface CustomProps {
@@ -20,20 +21,6 @@ const StreamForm: React.FC<StreamFormProps> = ({ onSubmit, handleSubmit }: Strea
       <Button type={'submit'} label={'Submit'} callback={() => { }}></Button>
     </ form>
   )
-}
-
-
-const validate = (formValues: Stream): FormErrors<Stream> => {
-  const errors: FormErrors<Stream> = {};
-  if (!formValues.title) {
-    errors.title = 'Title is required';
-  }
-
-  if (!formValues.description) {
-    errors.description = 'Description is required';
-  }
-
-  return errors;
 }
 
 const wrappedForm = reduxForm<Stream, CustomProps>({

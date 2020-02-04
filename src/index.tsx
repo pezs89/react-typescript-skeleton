@@ -11,7 +11,8 @@ import './assets/scss/_main.scss';
 const initialState: ApplicationState = {
   auth: {
     isLoggedIn: false,
-    userId: ''
+    userId: '',
+    profileImg: null
   },
   streams: {
     streamList: []
