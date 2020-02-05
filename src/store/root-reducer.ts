@@ -7,6 +7,7 @@ import { History } from 'history';
 import { streamsReducer } from './features/streams/reducer';
 import { authReducer } from './features/auth/reducer';
 import streamsSaga from './features/streams/saga';
+import { notificationsReducer } from './features/notification/reducer';
 
 export function* rootSaga() {
   yield all([fork(streamsSaga)]);
@@ -17,5 +18,6 @@ export const createRootReducer = (history: History) =>
     streams: streamsReducer,
     auth: authReducer,
     form: formReducer,
+    notifications: notificationsReducer,
     router: connectRouter(history)
   });

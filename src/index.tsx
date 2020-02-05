@@ -9,6 +9,10 @@ import './assets/scss/_main.scss';
 
 
 const initialState: ApplicationState = {
+  notifications: {
+    type: null,
+    message: ''
+  },
   auth: {
     isLoggedIn: false,
     userId: '',

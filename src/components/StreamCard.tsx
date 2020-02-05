@@ -20,10 +20,10 @@ const StreamCard: React.FC<StreamCardProps> = ({ id, description, title, created
         <img src={placeholder} alt={description} />
         {hasActions ? <div className="stream-card__actions actions">
           <IconContext.Provider value={{ className: "actions__icon" }}>
-          <Link to={`/streams/${StreamWrapperType.EDIT}/${id}`} onClick={stopPropagation}>
+          <Link className="link link__edit" to={`/streams/${StreamWrapperType.EDIT}/${id}`} onClick={stopPropagation}>
               <MdEdit />
             </Link>
-            <Link to={`/streams/${StreamWrapperType.DELETE}/${id}`} onClick={stopPropagation}>
+            <Link className="link link__delete" to={`/streams/${StreamWrapperType.DELETE}/${id}`} onClick={stopPropagation}>
               <MdDelete />
             </Link>
           </IconContext.Provider>

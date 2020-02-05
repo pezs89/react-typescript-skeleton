@@ -43,7 +43,7 @@ export enum StreamActionTypes {
   DELETE_STREAM_FAILURE = '@@stream/DELETE_STREAM_FAILURE'
 }
 
-export type StreamsReducerActions =
+export type StreamsAction =
   | ReturnType<typeof loadStreamsAsync.success>
   | ReturnType<typeof loadStreamsAsync.failure>
   | ReturnType<typeof createStreamAsync.success>

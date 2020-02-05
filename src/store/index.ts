@@ -8,10 +8,12 @@ import { FormStateMap } from 'redux-form';
 import { AuthState } from './features/auth/types';
 import { StreamsState } from './features/streams/types';
 import { rootSaga, createRootReducer } from './root-reducer';
+import { NotificationState } from './features/notification/types';
 
 export interface ApplicationState {
   auth: AuthState;
   streams: StreamsState;
+  notifications: NotificationState;
   form?: FormStateMap;
   router?: RouterState;
 }

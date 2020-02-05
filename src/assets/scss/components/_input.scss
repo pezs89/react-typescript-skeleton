@@ -23,17 +23,17 @@
     transition: all 0.2s ease-in-out;
     font-size: 18px;
     &:focus {
-      border-bottom: 2px solid #0061ff;
+      border-bottom: 2px solid $primary-color;
     }
     &--error {
-      border-bottom: 1px solid #d8000c;
+      border-bottom: 1px solid $error-color;
       &:focus {
-        border-bottom: 2px solid #d8000c;
+        border-bottom: 2px solid $error-color;
       }
     }
   }
   &__error {
     padding: 5px 0;
-    color: #d8000c;
+    color: $error-color;
   }
 }

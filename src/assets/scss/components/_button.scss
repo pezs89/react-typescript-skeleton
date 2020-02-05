@@ -4,14 +4,24 @@
   justify-content: center;
   &__button {
     font-family: Roboto, sans-serif;
-    border: none;
     padding: 10px 30px;
     width: auto;
-    background-color: rgba(0, 97, 255, 1);
-    color: #FFF;
+    border: none;
+    color: black;
+    background-color: #fff;
+    outline: none;
+    &--primary {
+      background-color: $primary-color;
+      color: #fff;
+    }
+    &--secondary {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: black;
+      background-color: #fff;
+    }
     cursor: pointer;
     &--disabled {
-      background-color: rgba(0, 97, 255, 0.4);
+      background-color: rgba(0, 0, 0, 0.4);
       cursor: default;
     }
   }

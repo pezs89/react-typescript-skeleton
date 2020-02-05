@@ -4,6 +4,21 @@ a {
   text-decoration: none;
   transition: all 0.25s ease-in-out;
   &:hover {
-    transform: scale(1.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+  }
+  &.link {
+    &__edit {
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    &__delete {
+      &:hover {
+        color: $error-color;
+      }
+    }
+    &:hover {
+      border-bottom: none;
+    }
   }
 }

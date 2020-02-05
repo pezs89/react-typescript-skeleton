@@ -1,5 +1,5 @@
-import { createReducer, ActionType } from 'typesafe-actions';
-import { AuthState } from './types';
+import { createReducer } from 'typesafe-actions';
+import { AuthState, LoginAction } from './types';
 import { login, logout } from './actions';
 
 export const initialState: AuthState = {
@@ -7,8 +7,6 @@ export const initialState: AuthState = {
   userId: '',
   profileImg: null
 };
-
-type LoginAction = ActionType<typeof login>;
 
 export const authReducer = createReducer<AuthState>(initialState)
   .handleAction(login, (state: AuthState, action: LoginAction) => {

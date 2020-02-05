@@ -38,7 +38,9 @@ class StreamWrapper extends Component<StreamWrapperProps> {
   }
 
   handleStreamEdit = (stream: Stream): void => {
-    this.props.editStream({ id: stream.id, stream });
+    if (this.props.stream) {
+      this.props.editStream({ id: this.props.stream.id, stream });
+    }
   }
 
   render(): JSX.Element {

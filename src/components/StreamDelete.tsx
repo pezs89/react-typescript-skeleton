@@ -26,7 +26,7 @@ const StreamDelete: React.FC<StreamDeleteProps> = ({ stream, callback, history, 
     return (
       <>
         <Button type="button" label="Delete" callback={() => handleClick(DeleteModalActionTypes.Delete)}></Button>
-        <Button type="button" label="Cancel" callback={() => handleClick(DeleteModalActionTypes.Cancel)}></Button>
+        <Button type="button" label="Cancel" extraClass="button-container__button--secondary" callback={() => handleClick(DeleteModalActionTypes.Cancel)}></Button>
       </>
     )
   }
