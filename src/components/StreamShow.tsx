@@ -7,7 +7,7 @@ const StreamShow: React.FC<CustomStreamInnerComponentProps<Stream>> = ({ stream 
   if (stream) {
     return (
       <div className="stream-create stream-create--column">
-        <iframe width="100%" height="500px" src="https://www.youtube.com/embed/pxw-5qfJ1dk" frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        <iframe width="100%" height="500px" title={stream.title} src="https://www.youtube.com/embed/pxw-5qfJ1dk" frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
         <h3>
           {stream.title}
         </h3>
